@@ -1,7 +1,11 @@
 import React from "react";
-
+import Navbar from "./Navbar";
 const Home = () => {
-  return <div>This is Home For My Pet Mediconnect app project</div>;
+  return (
+    <div>
+      <Navbar />
+    </div>
+  );
 };
 
 export default Home;

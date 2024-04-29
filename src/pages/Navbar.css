@@ -1,0 +1,45 @@
+.navbar {
+  background-color: #fff; /* Change background color to white */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center; /* Center align items */
+}
+
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-links li {
+  margin-left: 20px; /* Add margin to space out links */
+  position: relative; /* Add relative positioning for pseudo-element */
+}
+
+.nav-links li a {
+  color: #333; /* Change text color to dark */
+  text-decoration: none;
+  position: relative; /* Add relative positioning for underline effect */
+  font-size: 15px; /* Set font size to 16px */
+  font-family: "Inter", sans-serif; /* Set font family to Inter, sans-serif */
+}
+
+.nav-links li a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px; /* Adjust the distance of the underline */
+  width: 0; /* Start with zero width */
+  height: 2px;
+  background-color: #7666ca; /* Initial underline color */
+  transition: width 0.5s ease; /* Slow down the width transition */
+}
+
+.nav-links li a:hover {
+  color: #7666ca; /* Change text color to match the line color on hover */
+}
+
+.nav-links li a:hover::before {
+  width: 100%; /* Draw the line to full width on hover */
+}
