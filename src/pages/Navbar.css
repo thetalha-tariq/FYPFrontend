@@ -2,14 +2,35 @@
   background-color: #fff; /* Change background color to white */
   padding: 10px 20px;
   display: flex;
-  justify-content: center; /* Center align items */
+  justify-content: space-between; /* Space elements evenly */
+  align-items: center; /* Align items vertically */
 }
+
+.brand {
+  display: flex;
+  align-items: center; /* Align items vertically */
+}
+
+.brand-text {
+    color: #333; /* Text color for brand (black) */
+    font-size: 24px; /* Larger font size for brand */
+    font-family: 'Montserrat (woff2)', sans-serif; /* Set font family to Inter, sans-serif */
+    transition: color 0.4s ease, font-size 0.2s ease;/* Smooth transition for color change */
+}
+
+.brand-text:hover {
+    color: #fac74f; /* Text color for brand on hover (#7666ca) */
+    font-size: 28px; 
+}
+
 
 .nav-links {
   list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
+  justify-content: center; /* Center align navigation links */
+  flex-grow: 1; /* Allow navigation links to grow and fill remaining space */
 }
 
 .nav-links li {
@@ -21,8 +42,7 @@
   color: #333; /* Change text color to dark */
   text-decoration: none;
   position: relative; /* Add relative positioning for underline effect */
-  font-size: 15px; /* Set font size to 16px */
-  font-family: "Inter", sans-serif; /* Set font family to Inter, sans-serif */
+  font-family: "Inter", sans-serif;
 }
 
 .nav-links li a::before {
@@ -32,12 +52,12 @@
   bottom: -3px; /* Adjust the distance of the underline */
   width: 0; /* Start with zero width */
   height: 2px;
-  background-color: #7666ca; /* Initial underline color */
+  background-color: #fac74f; /* Initial underline color */
   transition: width 0.5s ease; /* Slow down the width transition */
 }
 
 .nav-links li a:hover {
-  color: #7666ca; /* Change text color to match the line color on hover */
+  color: #fac74f; /* Change text color to match the line color on hover */
 }
 
 .nav-links li a:hover::before {
