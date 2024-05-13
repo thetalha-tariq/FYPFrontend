@@ -4,6 +4,10 @@
   display: flex;
   justify-content: space-between; /* Space elements evenly */
   align-items: center; /* Align items vertically */
+  position: fixed; /* Fix the navbar at the top */
+  width: 100%; /* Ensure the navbar spans the entire width */
+  z-index: 1000; /* Ensure the navbar appears above other content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
 .brand {
@@ -16,10 +20,11 @@
     font-size: 24px; /* Larger font size for brand */
     font-family: 'Montserrat (woff2)', sans-serif; /* Set font family to Inter, sans-serif */
     transition: color 0.4s ease, font-size 0.2s ease;/* Smooth transition for color change */
+    color: #fac74f;
 }
 
 .brand-text:hover {
-    color: #fac74f; /* Text color for brand on hover (#7666ca) */
+     /* Text color for brand on hover (#7666ca) */
     font-size: 28px; 
 }
 
@@ -63,3 +68,14 @@
 .nav-links li a:hover::before {
   width: 100%; /* Draw the line to full width on hover */
 }
+
+.login-button {
+  background-color: #fac74f; /* Set background color */
+  color: #fff; /* Set text color */
+  border: none; /* Remove border */
+  border-radius: 15px; /* Make it round */
+  padding: 10px 20px; /* Adjust padding */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-family: "Inter", sans-serif; /* Set font family */
+}
+

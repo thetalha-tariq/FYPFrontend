@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
 import toast from "react-hot-toast";
-
+import axios from "../axiosInstance";
 function Register() {
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ function Register() {
   };
 
   return (
-    <div className="flex flex-col items-center mt-10">
+    <div className="flex flex-col items-center">
       <h1 className="text-2xl py-4 font-bold">Registration Form</h1>
       <form className="w-1/2 mx-auto" onSubmit={onSubmit}>
         <div className="relative z-0 w-full mb-5 group">

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
 import toast from "react-hot-toast";
+import axios from "../axiosInstance";
 
 function Login() {
   const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("Form data:", formData);
+      console.log("Request URL:", "/api/user/login");
       const response = await axios.post("/api/user/login", formData);
       if (response.data.success) {
         toast.success(response.data.message, { duration: 1000 }); // Set duration to 1000 milliseconds (1 second)
@@ -43,7 +46,7 @@ function Login() {
   // };
 
   return (
-    <div className="flex flex-col items-center mt-10">
+    <div className="flex flex-col items-center">
       <h1 className="text-2xl py-4 font-bold">Login Form</h1>
       <form className="w-1/2 mx-auto" onSubmit={onSubmit}>
         <div className="relative z-0 w-full mb-5 group">
