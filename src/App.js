@@ -12,12 +12,14 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Toaster position="top-center" reverseOrder={false} />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <div style={{ paddingTop: '64px' }}> {/* Adjust based on Navbar height */}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
