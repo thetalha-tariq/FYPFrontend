@@ -1,26 +1,68 @@
-import React, { useState, useEffect } from "react";
-import Products from "../Components/Products";
+import React, { useEffect, useState } from 'react';
+import axios from "../axiosInstance";
 
+function Products() {
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("All");
 
-const Product = () => {
-  return (
-    <div className="mt-3">
-      <nav className="col-span-12 md:col-span-10 overflow-auto ">
-        <ul className="nav-links">
-          <li className="cursor-pointer">
-            <a>  All</a>
-          </li>
-          <li className="cursor-pointer">
-            <a>Food</a>        </li>
-          <li className="cursor-pointer">
-            <a>Accessories</a>          </li>
-          <li className="cursor-pointer">
-            <a> Equipments</a>          </li>
-        </ul>
-      </nav>
-      {<Products />}
-    </div>
-  );
-};
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get("/api/product/");
+                setProducts(response.data.products);
+                setFilteredProducts(response.data.products);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
 
-export default Product;
+        fetchProducts();
+    }, []);
+
+    const handleCategoryChange = (category) => {
+        if (category === "All") {
+            setFilteredProducts(products);
+        } else {
+            const filtered = products.filter(product => product.category === category);
+            setFilteredProducts(filtered);
+        }
+        setSelectedCategory(category);
+    };
+
+    return (
+        <div className="bg-white">
+            <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+           
+                <div className="flex justify-center mb-4">
+                    <button onClick={() => handleCategoryChange("All")} className={`btn ${selectedCategory === "All" ? "btn-active" : ""}`}>All</button>
+                    <button onClick={() => handleCategoryChange("food")} className={`btn ${selectedCategory === "food" ? "btn-active" : ""}`}>Food</button>
+                    <button onClick={() => handleCategoryChange("accessories")} className={`btn ${selectedCategory === "accessories" ? "btn-active" : ""}`}>Accessories</button>
+                    <button onClick={() => handleCategoryChange("equipments")} className={`btn ${selectedCategory === "equipments" ? "btn-active" : ""}`}>Grooming Equipments</button>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
+                    {filteredProducts.map((data, idx) => (
+                        <div key={idx} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <a href="#">
+                                <img className="p-8 rounded-t-lg" src={data.imageUrl} alt="product image" />
+                            </a>
+                            <div className="px-5 pb-5">
+                                <a href="#">
+                                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{data.name}</h5>
+                                </a>
+                                <div className="flex items-center justify-between mb-2"><p>{data.description}</p></div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-3xl font-bold text-gray-900 dark:text-white">${data.price}</span>
+                                    <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Products;
