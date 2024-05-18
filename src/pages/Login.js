@@ -1,32 +1,29 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-//import axios from "axios";
 import toast from "react-hot-toast";
-import axios from "../axiosInstance";
+import { useDispatch, useSelector } from 'react-redux'
+import { authenticateUser } from '../Store/Slice/UserSlice'
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Form data:", formData);
-      console.log("Request URL:", "/api/user/login");
-      const response = await axios.post("/api/user/login", formData);
-      if (response.data.success) {
-        toast.success(response.data.message, { duration: 1000 }); // Set duration to 1000 milliseconds (1 second)
-        toast.success("Redirecting to Home Page");
-        localStorage.setItem("token", response.data.data);
-        navigate("/");
-      } else {
-        toast.error(response.data.message, { duration: 1000 }); // Set duration to 1000 milliseconds (1 second)
-      }
+      dispatch(authenticateUser(formData))
+        .then(() => {
+          if (localStorage.getItem('token') && localStorage.getItem('role') === 'customer' && localStorage.getItem('isAuthenticated'))
+            // console.log("heyy")
+            navigate('/product')
+
+        })
+
     } catch (error) {
       toast.error("Something went wrong", { duration: 1000 }); // Set duration to 1000 milliseconds (1 second)
     }
   };
 
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -44,9 +41,10 @@ function Login() {
   //   // Handle form submission
   //   console.log(formData);
   // };
-
+  const { user } = useSelector((state) => state.user)
+  console.log("user is >>>>>>>>>>>>>>>", user)
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center bg-yellow-300 h-screen">
       <h1 className="text-2xl py-4 font-bold">Login Form</h1>
       <form className="w-1/2 mx-auto" onSubmit={onSubmit}>
         <div className="relative z-0 w-full mb-5 group">
@@ -62,7 +60,7 @@ function Login() {
           />
           <label
             htmlFor="floating_email"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
           >
             Email address
           </label>
@@ -85,7 +83,7 @@ function Login() {
             Password
           </label>
         </div>
-        <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+        <button type="submit" className="bg-white hover:font-bold text-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
       </form>
       <Link to="/register" className="text-blue-700 border-b-2  border-blue-700"> Click Here to Register</Link>
     </div>

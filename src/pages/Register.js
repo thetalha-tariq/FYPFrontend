@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //import axios from "axios";
 import toast from "react-hot-toast";
+import { useDispatch } from 'react-redux'
 import axios from "../axiosInstance";
+import { registerUser } from '../Store/Slice/UserSlice'
+
+
 function Register() {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,14 +27,11 @@ function Register() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/user/register", formData);
-      if (response.data.success) {
-        toast.success(response.data.message, { duration: 1000 });
-        toast.success("Redirecting to Login Page");
-        navigate("/login");
-      } else {
-        toast.error(response.data.message, { duration: 1000 });
-      }
+      dispatch(registerUser(formData))
+        .then(() => {
+          navigate('/login')
+
+        })
     } catch (error) {
       toast.error("Something went wrong", { duration: 1000 });
     }
