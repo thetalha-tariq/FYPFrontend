@@ -10,6 +10,7 @@ import CreatePage from "../src/pages/CreatePage"
 import Footer from "./Components/Footer";
 import Contact from "./Components/Contacts";
 import AboutUs from "./pages/AboutUs";
+import DoctorDetail from "./pages/DoctorDetail";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/createpage" element={<CreatePage />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/About" element={<AboutUs />} />
+          <Route path="/Doctor" element={<DoctorDetail />} />
         </Routes>
         <Footer />
       </div>
