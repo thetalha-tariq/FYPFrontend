@@ -5,8 +5,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Product from "./pages/Product";
-import Navbar from "./pages/Navbar";
+import Navbar from "./Components/Navbar";
 import CreatePage from "../src/pages/CreatePage"
+import Footer from "./Components/Footer";
+import Contact from "./Components/Contacts";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -20,7 +23,10 @@ function App() {
           <Route path="/product" element={<Product />} />
           <Route path="/" element={<Home />} />
           <Route path="/createpage" element={<CreatePage />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/About" element={<AboutUs />} />
         </Routes>
+        <Footer />
       </div>
     </BrowserRouter>
   );
