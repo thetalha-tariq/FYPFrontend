@@ -11,6 +11,7 @@ import Footer from "./Components/Footer";
 import Contact from "./Components/Contacts";
 import AboutUs from "./pages/AboutUs";
 import DoctorDetail from "./pages/DoctorDetail";
+import SelectAndAddSlots from "./pages/SelectAndAddSlot";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/Contact" element={<Contact />} />
           <Route path="/About" element={<AboutUs />} />
           <Route path="/Doctor" element={<DoctorDetail />} />
+          <Route path="/slot" element={<SelectAndAddSlots />} />
         </Routes>
         <Footer />
       </div>
