@@ -26,7 +26,7 @@ function App() {
           <Route path="/createpage" element={<CreatePage />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/About" element={<AboutUs />} />
-          <Route path="/Doctor" element={<DoctorDetail />} />
+          <Route path="/appointment" element={<DoctorDetail />} />
         </Routes>
         <Footer />
       </div>
