@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import DoctorEditForm from './DoctorEditForm';
 
 const DoctorDetail = () => {
   const [doctor, setDoctor] = useState(null);
+  const [slots, setSlots] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    specialization: '',
-    phone: '',
-    address: '',
-    experience: '',
-    qualifications: [],
-    timings: {
-      monday: { slot1: '', slot2: '' },
-      tuesday: { slot1: '', slot2: '' },
-    },
-  });
 
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/doctor/668947a8b9ba356446d41ba4');
         setDoctor(response.data.data);
-        setFormData(response.data.data);
+
+        // Fetch slot details
+        await fetchSlotDetails(response.data.data.timings);
       } catch (error) {
         console.error('Error fetching doctor details:', error);
       }
@@ -32,41 +23,42 @@ const DoctorDetail = () => {
     fetchDoctor();
   }, []);
 
+  const fetchSlotDetails = async (timings) => {
+    try {
+      const slotIds = [];
+      Object.keys(timings).forEach((day) => {
+        Object.keys(timings[day]).forEach((slot) => {
+          if (timings[day][slot]) {
+            slotIds.push(timings[day][slot]);
+          }
+        });
+      });
+
+      const slotResponses = await Promise.all(
+        slotIds.map((id) => axios.get(`http://localhost:5000/api/slot/${id}`))
+      );
+
+      const slotDetails = {};
+      slotResponses.forEach((response) => {
+        slotDetails[response.data.data._id] = response.data.data;
+      });
+
+      setSlots(slotDetails);
+    } catch (error) {
+      console.error('Error fetching slot details:', error);
+    }
+  };
+
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name.includes('.')) {
-      const [day, slot] = name.split('.');
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        timings: {
-          ...prevFormData.timings,
-          [day]: {
-            ...prevFormData.timings[day],
-            [slot]: value,
-          },
-        },
-      }));
-    } else {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    }
-  };
+  const handleSave = async (updatedDoctor) => {
+    setDoctor(updatedDoctor);
+    setIsEditing(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(`http://localhost:5000/api/doctor/${doctor._id}`, formData);
-      setIsEditing(false);
-      setDoctor(formData);
-    } catch (error) {
-      console.error('Error updating doctor details:', error);
-    }
+    // Fetch slot details for updated timings
+    await fetchSlotDetails(updatedDoctor.timings);
   };
 
   if (!doctor) {
@@ -115,8 +107,15 @@ const DoctorDetail = () => {
             {Object.keys(doctor.timings).map((day) => (
               <div key={day} className="mb-2">
                 <p className="font-medium">{day.charAt(0).toUpperCase() + day.slice(1)}:</p>
-                <p>Slot 1: {doctor.timings[day].slot1}</p>
-                <p>Slot 2: {doctor.timings[day].slot2}</p>
+                {Object.keys(doctor.timings[day]).map((slot) => (
+                  <p key={slot}>
+                    {`${slot}: ${
+                      slots[doctor.timings[day][slot]]
+                        ? `${slots[doctor.timings[day][slot]].startTime} - ${slots[doctor.timings[day][slot]].endTime}`
+                        : doctor.timings[day][slot]
+                    }`}
+                  </p>
+                ))}
               </div>
             ))}
           </div>
@@ -130,116 +129,7 @@ const DoctorDetail = () => {
       </div>
 
       {isEditing && (
-        <form onSubmit={handleSubmit} className="mt-4 bg-white p-4 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">Edit Doctor Details</h2>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Specialization:</label>
-            <input
-              type="text"
-              name="specialization"
-              value={formData.specialization}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Phone:</label>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Address:</label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Experience:</label>
-            <input
-              type="number"
-              name="experience"
-              value={formData.experience}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Qualifications:</label>
-            <textarea
-              name="qualifications"
-              value={formData.qualifications.join('\n')}
-              onChange={(e) =>
-                setFormData({ ...formData, qualifications: e.target.value.split('\n') })
-              }
-              className="mt-1 block w-full border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Timings:</label>
-            {Object.keys(formData.timings).map((day) => (
-              <div key={day} className="mb-2">
-                <p className="font-medium">{day.charAt(0).toUpperCase() + day.slice(1)}:</p>
-                <div className="flex gap-2">
-                  <div>
-                    <label className="block text-sm">Slot 1:</label>
-                    <input
-                      type="text"
-                      name={`${day}.slot1`}
-                      value={formData.timings[day].slot1}
-                      onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm">Slot 2:</label>
-                    <input
-                      type="text"
-                      name={`${day}.slot2`}
-                      value={formData.timings[day].slot2}
-                      onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded-md"
-          >
-            Save
-          </button>
-        </form>
+        <DoctorEditForm doctor={doctor} onSave={handleSave} onCancel={handleEditToggle} />
       )}
     </div>
   );
