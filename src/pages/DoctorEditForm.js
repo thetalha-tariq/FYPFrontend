@@ -34,15 +34,14 @@ const DoctorEditForm = ({ doctor, onSave, onCancel }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.includes('.')) {
-      const [day, slot] = name.split('.');
+      const [day, index] = name.split('.');
       setFormData((prevFormData) => ({
         ...prevFormData,
         timings: {
           ...prevFormData.timings,
-          [day]: {
-            ...prevFormData.timings[day],
-            [slot]: value,
-          },
+          [day]: prevFormData.timings[day].map((slotId, idx) =>
+            idx === parseInt(index, 10) ? value : slotId
+          ),
         },
       }));
     } else {
@@ -54,13 +53,18 @@ const DoctorEditForm = ({ doctor, onSave, onCancel }) => {
   };
 
   const handleDaySelection = (day) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      timings: {
-        ...prevFormData.timings,
-        [day]: prevFormData.timings[day] || { slot1: '', slot2: '', slot3: '', slot4: '' },
-      },
-    }));
+    setFormData((prevFormData) => {
+      const newTimings = { ...prevFormData.timings };
+      if (newTimings[day]) {
+        delete newTimings[day];
+      } else {
+        newTimings[day] = ['', '', '', ''];
+      }
+      return {
+        ...prevFormData,
+        timings: newTimings,
+      };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -162,12 +166,12 @@ const DoctorEditForm = ({ doctor, onSave, onCancel }) => {
             </label>
             {formData.timings[day] && (
               <div className="flex gap-2 mt-2">
-                {['slot1', 'slot2', 'slot3', 'slot4'].map((slot) => (
-                  <div key={slot}>
-                    <label className="block text-sm">{slot.charAt(0).toUpperCase() + slot.slice(1)}:</label>
+                {formData.timings[day].map((slotId, index) => (
+                  <div key={index}>
+                    <label className="block text-sm">Slot {index + 1}:</label>
                     <select
-                      name={`${day}.${slot}`}
-                      value={formData.timings[day][slot]}
+                      name={`${day}.${index}`}
+                      value={slotId}
                       onChange={handleChange}
                       className="mt-1 block w-full border border-gray-300 rounded-md"
                     >

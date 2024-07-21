@@ -1,40 +1,38 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "../../axiosInstance";
 
-export const authenticateUser = createAsyncThunk("authenticateUser",
+export const authenticateUser = createAsyncThunk(
+    "authenticateUser",
     async (payload, { rejectWithValue }) => {
-        try {
-            const response = await axios.post("/api/user/login", payload);
-            const result = response.data
-            console.log("---------------------->>>>>>>>>>>>", result.data.user.userRole)
-            console.log(result.data.token)
-
-            localStorage.setItem("token", result.data.token)
-            // localStorage.setItem("userId", result.data.user._id)
-            localStorage.setItem("role", result.data.user.userRole)
-            localStorage.setItem("isAuthenticated", true)
-
-            return result.data.user
-        }
-        catch (error) {
-
-            return rejectWithValue(error)
-        }
-    })
-
+      try {
+        const response = await axios.post("/api/user/login", payload);
+        const result = response.data;
+        localStorage.setItem("token", result.data.token);
+        localStorage.setItem("role", result.data.user.userRole);
+        localStorage.setItem("isAuthenticated", true);
+        return result.data.user;
+      } catch (error) {
+        console.log(error.response.data.message)
+        localStorage.setItem("error",error.response.data.message)
+        // return rejectWithValue(error.response.data);
+      }
+    }
+  );
 export const registerUser = createAsyncThunk("registerUser",
     async (payload, { rejectWithValue }) => {
         try {
             const response = await axios.post("/api/user/register", payload);
             const result = response.data
-            console.log("---------------------->>>>>>>>>>>>", result.data.user.userRole)
+            console.log("---------------------->>>>>>>>>>>>", result)
             console.log(result.data.token)
-
+            
             return result.data.user
         }
         catch (error) {
-
-            return rejectWithValue(error)
+            console.log(error.response.data.message)
+            localStorage.setItem("error",error.response.data.message)
+            // response.data.message
+            // return rejectWithValue(error)
         }
     })
 
@@ -72,13 +70,13 @@ const userSlice = createSlice({
         //create user
 
         builder.addCase(registerUser.pending, (state) => {
-            state.loading = true;
+            // state.loading = true;
         });
         builder.addCase(registerUser.fulfilled, (state) => {
-            state.loading = false
+            // state.loading = false
         });
         builder.addCase(registerUser.rejected, (state, action) => {
-            state.error = action.payload.msg
+            // state.error = action.payload.msg
         });
 
 

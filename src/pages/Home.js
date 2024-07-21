@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUtensils, faPaw, faShieldDog, faCat, faSuitcaseMedical } from "@fortawesome/free-solid-svg-icons";
-
+import HomePagePic1 from "../Images/HomePagePic1.webp";
 
 import { useState } from "react";
 const Home = () => {
   const [Image, setImage] = useState("https://45397-theme003.myshopify.com/cdn/shop/files/slide_3_1810x700_crop_top.png?v=1620303005");
   const Images = ["https://45397-theme003.myshopify.com/cdn/shop/files/slide_1_1810x700_crop_center.png?v=1620302496", "https://45397-theme003.myshopify.com/cdn/shop/files/slide_3_1810x700_crop_top.png?v=1620303005", "https://45397-theme003.myshopify.com/cdn/shop/files/slide_2_1810x700_crop_center.png?v=1620302571"]
-  // const [Count, setCount] = useState(1);
+
   const onButtonClick = () => {
-    // setCount(Count + 1)
-    // setImage(Images[Count]);
-    // if (Count === 3) {
-    //   setCount(3);
-    // }
+    
     var rand = Math.floor(Math.random() * 3);
     setImage(Images[rand])
   }

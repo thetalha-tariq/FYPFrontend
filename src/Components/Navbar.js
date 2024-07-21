@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Style/Navbar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserLarge } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   return (
@@ -10,7 +12,7 @@ const Navbar = () => {
       </div>
       <ul className="nav-links">
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/home">Home</Link>
         </li>
         <li>
           <Link to="/about">About</Link>
@@ -29,7 +31,7 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="login-container">
-        <Link to="/login" className="login-button">Login</Link>
+        <Link to="/" className="login-button"><FontAwesomeIcon icon={faUserLarge} /></Link>
       </div>
     </nav>
   );
