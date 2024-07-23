@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from 'react-redux'
-import axios from "../axiosInstance";
 import { registerUser } from '../Store/Slice/UserSlice'
 import img from "../Images/img5.jpg"
 

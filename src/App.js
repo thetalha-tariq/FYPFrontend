@@ -4,8 +4,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Product from "./pages/Product";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
 import Contact from "./Components/Contacts";
 import AboutUs from "./pages/AboutUs";
 import DoctorDetail from "./pages/DoctorDetail";
@@ -19,12 +17,17 @@ import Landing from "./pages/Landing";
 import { CustomerLayout } from "./Layouts/CustomerLayout";
 import { DoctorLayout } from "./Layouts/DoctorLayout";
 import { AdminLayout } from "./Layouts/AdminLayout";
+import DisplayDoctorSlot from "./pages/DisplayDoctorSlot";
+import ManageUsers from "./pages/AdminPages/ManageUsers";
+import ManageDoctors from "./pages/AdminPages/ManageDoctors";
+import ManageUserContacts from "./pages/AdminPages/ManageUserContacts";
 
 
 function App() {
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   const role = localStorage.getItem("role");
   const doctorID = localStorage.getItem("doctorId");
+  const userID = localStorage.getItem("userId")
 
   console.log("isAuthenticated:", isAuthenticated);
   console.log("role:", role);
@@ -70,7 +73,7 @@ function App() {
           <Route path="/Contact" element={
               isAuthenticated && role == "customer" ? (
                 < CustomerLayout>
-                  <Contact />
+                  <Contact userId={userID}/>
                 </ CustomerLayout>
               ) : (
                 <Login />
@@ -118,9 +121,37 @@ function App() {
                 <DoctorLogin />
               )
             }  />
+            <Route path="/manageappointment" element={
+              isAuthenticated && role === "doctor" ? (
+                <DoctorLayout>
+                <DisplayDoctorSlot doctorId={doctorID}/>
+                </DoctorLayout>
+              ) : (
+                <DoctorLogin />
+              )
+            }  />
           
 
           {/* Admin Components */}
+
+          <Route path="/manageuser" element={
+              isAuthenticated && role === "admin" ? (
+                <AdminLayout>
+                <ManageUsers />
+                </AdminLayout>
+              ) : (
+                <Login />
+              )
+            }  />
+            <Route path="/managedoctor" element={
+              isAuthenticated && role === "admin" ? (
+                <AdminLayout>
+                <ManageDoctors />
+                </AdminLayout>
+              ) : (
+                <Login />
+              )
+            }  />
           <Route path="/addProductAdmin" element={
               isAuthenticated && role === "admin" ? (
                 <AdminLayout>
@@ -148,6 +179,16 @@ function App() {
                 <Login />
               )
             } />
+            <Route path="/contactformAdmin" element={
+              isAuthenticated && role === "admin" ? (
+                <AdminLayout>
+                <ManageUserContacts />
+                </AdminLayout>
+              ) : (
+                <Login />
+              )
+            } />
+
         </Routes>
       </div>
     </BrowserRouter>

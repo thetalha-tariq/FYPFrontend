@@ -1,11 +1,11 @@
 import React from 'react'
-import  NavBar  from '../Components/Navbar'
+import  DoctorNavbar  from '../Components/DoctorNavbar'
 import  Footer  from '../Components/Footer'
 
 export const DoctorLayout = ({children}) => {
   return (
     <div>
-      <div><NavBar/> </div>
+      <div><DoctorNavbar/> </div>
       <div>{children}</div>
       <div><Footer/></div>
     </div>

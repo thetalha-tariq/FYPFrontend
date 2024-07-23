@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const EditDoctorDetails = ({ doctorId, onClose }) => {
+const EditDoctorDetails = ({ doctorId, onClose, onDoctorDetailsUpdated }) => {
     const [doctorDetails, setDoctorDetails] = useState({});
 
     useEffect(() => {
@@ -24,6 +24,7 @@ const EditDoctorDetails = ({ doctorId, onClose }) => {
     const handleSave = async () => {
         try {
             await axios.put(`http://localhost:5000/api/doctor/${doctorId}`, doctorDetails);
+            onDoctorDetailsUpdated(); // Notify parent component
             onClose();
         } catch (error) {
             console.error("Error updating doctor details:", error);
@@ -31,7 +32,7 @@ const EditDoctorDetails = ({ doctorId, onClose }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+        <div className="mt-20 fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-8 rounded-lg">
                 <h2 className="text-2xl mb-4">Edit Doctor Details</h2>
                 <label className="block mb-2">
@@ -70,6 +71,16 @@ const EditDoctorDetails = ({ doctorId, onClose }) => {
                         type="email"
                         name="email"
                         value={doctorDetails.email || ''}
+                        onChange={handleChange}
+                        className="mt-1 p-2 border rounded w-full"
+                    />
+                </label>
+                <label className="block mb-2">
+                Address:
+                    <input
+                        type="text"
+                        name="address"
+                        value={doctorDetails.address || ''}
                         onChange={handleChange}
                         className="mt-1 p-2 border rounded w-full"
                     />

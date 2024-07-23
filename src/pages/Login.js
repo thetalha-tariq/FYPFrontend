@@ -31,6 +31,11 @@ function Login() {
       window.location.href='/home'
       // Home
     }
+    if (user && localStorage.getItem('token') && localStorage.getItem('role') === 'admin' && localStorage.getItem('isAuthenticated')) {
+      // navigate('/home');
+      window.location.href='/addDoctorAdmin'
+      // Home
+    }
   }, [user, navigate]);
 
   const handleChange = (e) => {

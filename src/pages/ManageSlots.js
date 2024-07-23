@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ManageSlots = ({ doctorId, onClose }) => {
+const ManageSlots = ({ doctorId, onClose, onSlotDeleted }) => {
     const [slots, setSlots] = useState([]);
 
     useEffect(() => {
@@ -31,12 +31,10 @@ const ManageSlots = ({ doctorId, onClose }) => {
         fetchDoctorSlots();
     }, [doctorId]);
 
-    
-
     const handleDeleteSlot = async (slotId) => {
         try {
             await axios.delete(`http://localhost:5000/api/doctorSlot/${slotId}`);
-            setSlots(slots.filter(slot => slot._id !== slotId));
+            onSlotDeleted(slotId); // Notify parent component
         } catch (error) {
             console.error("Error deleting slot:", error);
         }
@@ -52,7 +50,6 @@ const ManageSlots = ({ doctorId, onClose }) => {
                         <p><strong>Date:</strong> {new Date(slot.date).toLocaleDateString()}</p>
                         <p><strong>Time:</strong> {slot.startTime} - {slot.endTime}</p>
                         <p><strong>Booked:</strong> {slot.booked ? 'Yes' : 'No'}</p>
-                        
                         <button
                             className="p-2 bg-red-500 text-white rounded"
                             onClick={() => handleDeleteSlot(slot._id)}

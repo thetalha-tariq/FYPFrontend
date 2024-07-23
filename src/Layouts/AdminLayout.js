@@ -1,11 +1,11 @@
 import React from 'react'
-import  NavBar  from '../Components/Navbar'
+import  AdminNavbar  from '../Components/AdminNavbar'
 import  Footer  from '../Components/Footer'
 
 export const AdminLayout = ({children}) => {
   return (
     <div>
-      <div><NavBar/> </div>
+      <div><AdminNavbar/> </div>
       <div>{children}</div>
       <div><Footer/></div>
     </div>

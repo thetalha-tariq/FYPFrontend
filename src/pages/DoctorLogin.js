@@ -91,11 +91,6 @@ function DoctorLogin() {
                         Password
                     </label>
                 </div>
-
-                <div className="text-right mt-2">
-                    <a href="#" className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot Password?</a>
-                </div>
-
                 <button type="submit" className="w-full block bg-yellow-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">
                     Log In
                 </button>
@@ -104,7 +99,6 @@ function DoctorLogin() {
             <hr className="my-6 border-gray-300 w-full" />
 
 
-            <p className="mt-8">Need an account? <a href="/register" className="text-blue-500 hover:text-blue-700 font-semibold">Create an account</a></p>
         </div>
     </div>
 </section>

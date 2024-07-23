@@ -10,6 +10,7 @@ export const authenticateUser = createAsyncThunk(
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("role", result.data.user.userRole);
         localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("userId",result.data.user._id);
         return result.data.user;
       } catch (error) {
         console.log(error.response.data.message)

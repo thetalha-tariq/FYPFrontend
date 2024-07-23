@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const AddNewSlot = ({ doctorId, onClose }) => {
+const AddNewSlot = ({ doctorId, onClose, onNewSlotAdded }) => {
     const [allSlots, setAllSlots] = useState([]);
     const [newSlot, setNewSlot] = useState({ slotId: '', date: '', day: '' });
 
@@ -24,12 +24,25 @@ const AddNewSlot = ({ doctorId, onClose }) => {
 
     const handleAddSlot = async () => {
         try {
-            await axios.post(`http://localhost:5000/api/doctorSlot/createDoctorSlot`, {
+            const response = await axios.post(`http://localhost:5000/api/doctorSlot/createDoctorSlot`, {
                 ...newSlot,
                 doctorId
             });
+
+            const addedSlot = response.data.data;
+
+            const slotResponse = await axios.get(`http://localhost:5000/api/slot/${addedSlot.slotId}`);
+            const slotDetails = slotResponse.data.data;
+
+            const newSlotWithDetails = {
+                ...addedSlot,
+                startTime: slotDetails.startTime,
+                endTime: slotDetails.endTime
+            };
+
             setNewSlot({ slotId: '', date: '', day: '' });
             onClose();
+            onNewSlotAdded(newSlotWithDetails);
         } catch (error) {
             console.error("Error adding new slot:", error);
         }
@@ -71,7 +84,7 @@ const AddNewSlot = ({ doctorId, onClose }) => {
                     placeholder="Day"
                 />
                 <button
-                    className="p-2 bg-green-500 text-white rounded"
+                    className="p-2 mr-2 bg-green-500 text-white rounded"
                     onClick={handleAddSlot}
                 >
                     Add Slot
