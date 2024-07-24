@@ -101,9 +101,9 @@ function App() {
 
             {/* ******DOCTOR ROUTES******* */}
           <Route
-            path="/Doctor"
+            path="/doctor"
             element={
-              isAuthenticated && role === "doctor" ? (
+              isAuthenticated && (role === "doctor" || role ==="groomer") ? (
                 <DoctorLayout>
                 <DoctorDetail doctorId={doctorID} />
                 </DoctorLayout>

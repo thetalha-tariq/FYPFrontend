@@ -38,7 +38,7 @@ const DoctorDetail = ({ doctorId }) => {
 
     return (
         <div className="p-4">
-                <h1 className="text-2xl font-bold mb-4">Doctor Details</h1>
+                <h1 className="text-2xl font-bold mb-4">{doctor.role === 'doctor' ? 'Doctor' : 'Groomer'} Details</h1>
                 <div className="bg-white shadow-md rounded-lg p-4 flex">
                     <div className="flex-grow">
                         <p><strong>Name:</strong> {doctor.name}</p>

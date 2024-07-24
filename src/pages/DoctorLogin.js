@@ -15,8 +15,13 @@ function DoctorLogin() {
       await dispatch(authenticateDoctor(formData))
         .then(() => {
           if (localStorage.getItem('token') && localStorage.getItem('role') === 'doctor' && localStorage.getItem('isAuthenticated'))
-            // console.log("heyy")
+            {// console.log("heyy")
             window.location.href='/doctor'
+            }
+            else 
+            {
+              window.location.href='/doctor'
+            }
         })
 
     } catch (error) {

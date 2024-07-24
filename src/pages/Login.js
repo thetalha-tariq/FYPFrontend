@@ -22,6 +22,7 @@ function Login() {
       await dispatch(authenticateUser(formData));
     } catch (error) {
       toast.error("Something went wrong", { duration: 1000 }); // Set duration to 1000 milliseconds (1 second)
+      // alert(error.response.data.message);
     }
   };
 
@@ -33,7 +34,7 @@ function Login() {
     }
     if (user && localStorage.getItem('token') && localStorage.getItem('role') === 'admin' && localStorage.getItem('isAuthenticated')) {
       // navigate('/home');
-      window.location.href='/addDoctorAdmin'
+      window.location.href='/manageuser'
       // Home
     }
   }, [user, navigate]);

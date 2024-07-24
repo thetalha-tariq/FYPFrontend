@@ -14,6 +14,7 @@ export const authenticateUser = createAsyncThunk(
         return result.data.user;
       } catch (error) {
         console.log(error.response.data.message)
+        alert(error.response.data.message);
         localStorage.setItem("error",error.response.data.message)
         // return rejectWithValue(error.response.data);
       }
@@ -32,6 +33,7 @@ export const registerUser = createAsyncThunk("registerUser",
         catch (error) {
             console.log(error.response.data.message)
             localStorage.setItem("error",error.response.data.message)
+            alert(error.response.data.message);
             // response.data.message
             // return rejectWithValue(error)
         }

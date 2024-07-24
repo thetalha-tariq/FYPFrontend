@@ -53,6 +53,7 @@ const ManageDoctors = () => {
                         <th className="py-2 px-4 border">Specialization</th>
                         <th className="py-2 px-4 border">Email</th>
                         <th className="py-2 px-4 border">Phone</th>
+                        <th className="py-2 px-4 border">Role</th>
                         <th className="py-2 px-4 border">Actions</th>
                     </tr>
                 </thead>
@@ -63,6 +64,7 @@ const ManageDoctors = () => {
                             <td className="py-2 px-4 border">{doctor.specialization}</td>
                             <td className="py-2 px-4 border">{doctor.email}</td>
                             <td className="py-2 px-4 border">{doctor.phone}</td>
+                            <td className="py-2 px-4 border">{doctor.role}</td>
                             <td className="py-2 px-4 border">
                                 <button 
                                     onClick={() => handleEdit(doctor)} 
