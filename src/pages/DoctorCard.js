@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DoctorCard = ({ doctor, onMakeAppointment }) => {
+const DoctorCard = ({ doctor, onMakeAppointment, onOnlineConsulting }) => {
     return (
         <div className="border rounded-lg p-4 mb-4">
             <img 
@@ -18,6 +18,14 @@ const DoctorCard = ({ doctor, onMakeAppointment }) => {
             >
                 Make Appointment
             </button>
+            {doctor.role === 'doctor' && (
+                <button
+                    className="mt-4 p-2 bg-green-500 text-white rounded ml-2"
+                    onClick={onOnlineConsulting}
+                >
+                    Online Consulting
+                </button>
+            )}
         </div>
     );
 };

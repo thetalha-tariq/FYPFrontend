@@ -19,7 +19,18 @@ const AddNewSlot = ({ doctorId, onClose, onNewSlotAdded }) => {
     }, []);
 
     const handleNewSlotChange = (e) => {
-        setNewSlot({ ...newSlot, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setNewSlot((prevSlot) => ({
+            ...prevSlot,
+            [name]: value,
+            day: name === 'date' ? getDayOfWeek(value) : prevSlot.day
+        }));
+    };
+
+    const getDayOfWeek = (dateString) => {
+        const date = new Date(dateString);
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return days[date.getDay()];
     };
 
     const handleAddSlot = async () => {
@@ -82,9 +93,10 @@ const AddNewSlot = ({ doctorId, onClose, onNewSlotAdded }) => {
                     onChange={handleNewSlotChange}
                     className="p-2 border rounded w-full mb-2"
                     placeholder="Day"
+                    readOnly // Make the day field read-only
                 />
                 <button
-                    className="p-2 mr-2 bg-green-500 text-white rounded"
+                    className="p-2 mr-2 bg-[#fac74f] text-white rounded"
                     onClick={handleAddSlot}
                 >
                     Add Slot

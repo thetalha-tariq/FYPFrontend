@@ -34,28 +34,33 @@ export default function Contacts({ userId }) {
       <section className="bg-white py-20 lg:py-[50px] overflow-hidden relative z-10">
         <div className="container">
           <div className="flex flex-wrap lg:justify-between -mx-4">
-            <div className="w-full lg:w-1/2 xl:w-6/12 px-4">
-              <div className="max-w-[570px] mb-12 lg:mb-0">
-                <span className="block mb-4 text-2xl text-yellow-500 font-semibold">
-                  Contact Us
-                </span>
-                <h2 className="
-                  text-dark
-                  mb-6
-                  uppercase
-                  font-bold
-                  text-[32px]
-                  sm:text-[40px]
-                  lg:text-[36px]
-                  xl:text-[40px]
-                  ">
-                  GET IN TOUCH WITH US
-                </h2>
-                <p className="text-base text-body-color leading-relaxed mb-9">
-                  Welcome to <span className='font-semibold'>Pet MediConnect</span>. We're here to provide exceptional care and support for your beloved pets. Whether you have questions, need assistance, or want to book an appointment, we're just a click away.
-                </p>
-              </div>
+          <div className="w-full lg:w-1/2 xl:w-6/12 px-4">
+            <div className="max-w-[570px] mb-12 lg:mb-0">
+              <span className="block mb-4 text-2xl text-yellow-500 font-semibold">
+                Contact Us
+              </span>
+              <p className="text-base text-body-color leading-relaxed mb-9">
+                Welcome to <span className='font-semibold'>Pet MediConnect</span>!
+                <br/><br/>
+                We are here to assist you with any questions, concerns, or feedback you may have. Our dedicated admin team is committed to ensuring your experience with PetMedi Connect is smooth and satisfactory. Please use the form below to get in touch with us, and we will respond as soon as possible.
+                <br/><br/>
+                <span className='font-bold'>
+                Contact Information:</span>
+                <br/><br/>
+                Email: support@petmedi.com
+                <br/>
+                Phone: (123) 456-7890
+                <br/>
+                Office Hours: Monday - Friday, 9 AM - 6 PM
+                <br/><br/>
+                Thank you for reaching out to us. We appreciate your feedback and look forward to assisting you.
+                <br/><br/>
+                Warm regards,
+                <br/>
+                The PetMedi Connect Team
+              </p>
             </div>
+          </div>
             <div className="w-full lg:w-1/2 xl:w-5/12 px-4">
               <div className="bg-white relative rounded-lg p-8 sm:p-12 shadow-lg">
                 <form onSubmit={handleSubmit}>
@@ -137,21 +142,21 @@ export default function Contacts({ userId }) {
                     ></textarea>
                   </div>
                   <div>
-                    <button
-                      type="submit"
-                      className="
-                        w-full
-                        text-white
-                        bg-yellow-500
-                        rounded
-                        border border-primary
-                        p-3
-                        transition
-                        hover:bg-opacity-90
-                      "
-                    >
-                      Send Message
-                    </button>
+                  <button
+                  type="submit"
+                  className="
+                    w-full
+                    text-white
+                    rounded
+                    border border-primary
+                    p-3
+                    transition
+                    hover:bg-opacity-90
+                  "
+                  style={{ backgroundColor: '#fac74f' }}
+                >
+                  Submit
+                </button>
                   </div>
                 </form>
               </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-const AppointmentModal = ({ isOpen, onRequestClose, doctorId, slots, handleBookAppointment }) => {
+const AppointmentModal = ({ isOpen, onRequestClose, doctorId, slots, handleOpenBookModal }) => {
     const [detailedSlots, setDetailedSlots] = useState([]);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const AppointmentModal = ({ isOpen, onRequestClose, doctorId, slots, handleBookA
                             {!slot.booked && (
                                 <button
                                     className="mt-2 p-2 bg-blue-500 text-white rounded"
-                                    onClick={() => handleBookAppointment(slot._id)}
+                                    onClick={() => handleOpenBookModal(slot)}
                                 >
                                     Book Appointment
                                 </button>

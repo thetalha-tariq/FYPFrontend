@@ -27,6 +27,9 @@ const AdminNavBar = () => {
           <Link to="/addProductAdmin">Manage Products</Link>
         </li>
         <li>
+          <Link to="/manageAppointmentAdmin">Appointment</Link>
+        </li>
+        <li>
           <Link to="/contactformAdmin">Contact Form Data</Link>
         </li>
       </ul>

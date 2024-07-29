@@ -15,7 +15,10 @@ const DoctorNavbar = () => {
           <Link to="/doctor">Manage Profile</Link>
         </li>
         <li>
-          <Link to="/manageappointment">Manage Appointment</Link>
+          <Link to="/manageappointment">Manage Appointments</Link>
+        </li>
+        <li>
+          <Link to="/appoveAppointments">Approve Appointments</Link>
         </li>
         <li>
           <Link to="/contactSupport">Contact Support</Link>

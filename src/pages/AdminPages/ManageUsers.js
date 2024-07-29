@@ -5,6 +5,8 @@ const ManageUsers = () => {
     const [users, setUsers] = useState([]);
     const [editUser, setEditUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -43,30 +45,76 @@ const ManageUsers = () => {
         }
     };
 
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const sortedUsers = React.useMemo(() => {
+        let sortableUsers = [...users];
+        if (sortConfig !== null) {
+            sortableUsers.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableUsers;
+    }, [users, sortConfig]);
+
+    const filteredUsers = sortedUsers.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="container mx-auto mt-8">
             <h2 className="text-2xl font-bold mb-6">Manage Users</h2>
+            <input
+                type="text"
+                placeholder="Search by name or email"
+                value={searchTerm}
+                onChange={handleSearch}
+                className="w-full p-3 mb-6 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
             <table className="min-w-full bg-white border">
                 <thead>
                     <tr>
-                        <th className="py-2 px-4 border">Name</th>
-                        <th className="py-2 px-4 border">Email</th>
-                        <th className="py-2 px-4 border">Role</th>
+                        <th className="py-2 px-4 border cursor-pointer" onClick={() => handleSort('name')}>
+                            Name {sortConfig.key === 'name' ? (sortConfig.direction === 'ascending' ? '↑' : '↓') : ''}
+                        </th>
+                        <th className="py-2 px-4 border cursor-pointer" onClick={() => handleSort('email')}>
+                            Email {sortConfig.key === 'email' ? (sortConfig.direction === 'ascending' ? '↑' : '↓') : ''}
+                        </th>
+                        <th className="py-2 px-4 border cursor-pointer" onClick={() => handleSort('userRole')}>
+                            Role {sortConfig.key === 'userRole' ? (sortConfig.direction === 'ascending' ? '↑' : '↓') : ''}
+                        </th>
                         <th className="py-2 px-4 border">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
+                    {filteredUsers.map(user => (
                         <tr key={user._id}>
                             <td className="py-2 px-4 border">{user.name}</td>
                             <td className="py-2 px-4 border">{user.email}</td>
                             <td className="py-2 px-4 border">{user.userRole}</td>
                             <td className="py-2 px-4 border">
-                                <button 
-                                    onClick={() => handleEdit(user)} 
+                                <button
+                                    onClick={() => handleEdit(user)}
                                     className="bg-blue-500 text-white px-4 py-1 rounded mr-2">Edit</button>
-                                <button 
-                                    onClick={() => handleDelete(user._id)} 
+                                <button
+                                    onClick={() => handleDelete(user._id)}
                                     className="bg-red-500 text-white px-4 py-1 rounded">Delete</button>
                             </td>
                         </tr>
@@ -103,38 +151,38 @@ const Modal = ({ user, onClose, onSave }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-700">Name</label>
-                        <input 
-                            type="text" 
-                            name="name" 
-                            value={formData.name} 
-                            onChange={handleChange} 
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
                             className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700">Email</label>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            value={formData.email} 
-                            onChange={handleChange} 
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
                             className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700">Role</label>
-                        <input 
-                            type="text" 
-                            name="userRole" 
-                            value={formData.userRole} 
-                            onChange={handleChange} 
+                        <input
+                            type="text"
+                            name="userRole"
+                            value={formData.userRole}
+                            onChange={handleChange}
                             className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div className="flex justify-end">
-                        <button 
-                            type="button" 
-                            onClick={onClose} 
+                        <button
+                            type="button"
+                            onClick={onClose}
                             className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
                 </form>
