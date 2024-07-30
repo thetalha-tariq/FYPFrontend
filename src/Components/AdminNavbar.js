@@ -2,9 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../Style/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserLarge, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const AdminNavBar = () => {
+  const handlelick = () => {
+
+    localStorage.clear();
+    alert("Successfully logged out :( ")
+  }
   return (
     <nav className="col-span-12 md:col-span-10 overflow-auto bg-gray-100 navbar">
       <div className="brand">
@@ -33,11 +38,8 @@ const AdminNavBar = () => {
           <Link to="/contactformAdmin">Contact Form Data</Link>
         </li>
       </ul>
-      <div className="icon-container">
-        
-        <Link to="/" className="login-button">
-          <FontAwesomeIcon icon={faUserLarge} />
-        </Link>
+      <div className="login-container" onClick={handlelick}>
+        <Link to="/" className="login-button"><FontAwesomeIcon icon={faRightFromBracket} /></Link>
       </div>
     </nav>
   );

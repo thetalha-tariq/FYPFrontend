@@ -2,9 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../Style/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserLarge, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket, faBell } from "@fortawesome/free-solid-svg-icons";
 
 const DoctorNavbar = () => {
+  const handlelick = () => {
+
+    localStorage.clear();
+    alert("Successfully logged out :( ")
+  }
   return (
     <nav className="col-span-12 md:col-span-10 overflow-auto bg-gray-100 navbar">
       <div className="brand">
@@ -28,9 +33,9 @@ const DoctorNavbar = () => {
         <Link to="/notifications" className="notification-button">
           <FontAwesomeIcon icon={faBell} />
         </Link>
-        <Link to="/" className="login-button">
-          <FontAwesomeIcon icon={faUserLarge} />
-        </Link>
+        <div className="login-container" onClick={handlelick}>
+          <Link to="/" className="login-button"><FontAwesomeIcon icon={faRightFromBracket} /></Link>
+        </div>
       </div>
     </nav>
   );
