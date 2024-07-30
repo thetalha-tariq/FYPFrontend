@@ -133,9 +133,9 @@ const DoctorList = ({ userId }) => {
             </div>
             <div className="grid grid-cols-1 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredDoctors.map((doctor) => (
-                    <DoctorCard 
-                        key={doctor._id} 
-                        doctor={doctor} 
+                    <DoctorCard
+                        key={doctor._id}
+                        doctor={doctor}
                         onMakeAppointment={handleMakeAppointment}
                         onOnlineConsulting={handleOnlineConsulting} // Pass the new handler
                     />

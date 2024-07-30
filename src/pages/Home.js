@@ -4,12 +4,13 @@ import { faUtensils, faPaw, faShieldDog, faCat, faSuitcaseMedical } from "@forta
 import HomePagePic1 from "../Images/HomePagePic1.webp";
 
 import { useState } from "react";
+import axios, { Axios } from "axios";
 const Home = () => {
   const [Image, setImage] = useState("https://45397-theme003.myshopify.com/cdn/shop/files/slide_3_1810x700_crop_top.png?v=1620303005");
   const Images = ["https://45397-theme003.myshopify.com/cdn/shop/files/slide_1_1810x700_crop_center.png?v=1620302496", "https://45397-theme003.myshopify.com/cdn/shop/files/slide_3_1810x700_crop_top.png?v=1620303005", "https://45397-theme003.myshopify.com/cdn/shop/files/slide_2_1810x700_crop_center.png?v=1620302571"]
-
+  const [doctors, setDoctors] = useState([]);
   const onButtonClick = () => {
-    
+
     var rand = Math.floor(Math.random() * 3);
     setImage(Images[rand])
   }
@@ -19,6 +20,19 @@ const Home = () => {
       setImage(Images[rand])
     }, 2000);
   }, [])
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/doctor');
+        setDoctors(response.data.data);
+        console.log(doctors)
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
 
   return (
     <div className="gap-2 flex flex-col">
@@ -27,7 +41,7 @@ const Home = () => {
         <div className="absolute left-52 bottom-64 z-10 p-4 flex flex-col gap-4">
           <h2 className="font-semibold text-white font-serif text-3xl">Pet Food And Accessories</h2>
           <h1 className="font-semibold text-white font-serif text-3xl">All your pet need</h1>
-          <button className="font-bold bg-white w-48 py-3 gap-1 text-center  border rounded-2xl hover:cursor-pointer  hover:bg-yellow-200">Sign up</button>
+          <h1 className="font-semibold text-white font-serif text-3xl">Just A Click Away</h1>
 
         </div>
         <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
@@ -50,23 +64,23 @@ const Home = () => {
       <div className="flex flex-col gap-2 p-3">
         <h1 className="font-serif font-semibold text-2xl  text-center"> Our Services</h1>
         <div className="flex flex-row p-1">
-          <div className="flex flex-col items-center gap-3 hover:bg-red-500" >
+          <div className="flex flex-col items-center gap-3 hover:bg-yellow-500" >
             <FontAwesomeIcon icon={faUtensils} className="w-1/2 h-1/2 py-3" />
             <h1 className="font-bold font-serif">Food</h1>
           </div>
-          <div className="flex flex-col items-center gap-3 hover:bg-red-500" >
+          <div className="flex flex-col items-center gap-3 hover:bg-yellow-500" >
             <FontAwesomeIcon icon={faPaw} className="w-1/2 h-1/2 py-3" />
             <h1 className="font-bold font-serif">Accessories</h1>
           </div>
-          <div className="flex flex-col items-center gap-3 hover:bg-red-500" >
+          <div className="flex flex-col items-center gap-3 hover:bg-yellow-500" >
             <FontAwesomeIcon icon={faShieldDog} className="w-1/2 h-1/2 py-3" />
             <h1 className="font-bold font-serif">Care</h1>
           </div>
-          <div className="flex flex-col items-center gap-3 hover:bg-red-500" >
+          <div className="flex flex-col items-center gap-3 hover:bg-yellow-500" >
             <FontAwesomeIcon icon={faCat} className="w-1/2 h-1/2 py-3" />
             <h1 className="font-bold font-serif">Groom</h1>
           </div>
-          <div className="flex flex-col items-center gap-3 hover:bg-red-500" >
+          <div className="flex flex-col items-center gap-3 hover:bg-yellow-500" >
             <FontAwesomeIcon icon={faSuitcaseMedical} className="w-1/2 h-1/2 py-3" />
             <h1 className="font-bold font-serif"> Appointment</h1>
           </div>
@@ -76,134 +90,43 @@ const Home = () => {
       <div className="flex flex-col gap-3 p-3">
         <h1 className="font-serif font-semibold text-2xl  text-center"> Our Doctors</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-          <div class="flex flex-col items-center hover:cursor-pointer justify-center bg-white p-4 shadow rounded-lg hover:translate-y-2">
-            <div class="inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden h-40 w-40">
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&w=128&h=128&q=60&facepad=2"
-                alt=""
-                class="h-full w-full" />
-            </div>
+          {doctors.slice(0, 4).map((doctors, key) => {
+            return (
+              <div class="flex flex-col items-center hover:cursor-pointer justify-center bg-white p-4 shadow rounded-lg hover:translate-y-2">
+                <div class="inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden h-40 w-40">
+                  <img src={doctors.image}
+                    alt=""
+                    class="h-full w-full" />
+                </div>
 
-            <h2 class="mt-4 font-bold text-xl">Sebastian Bennett</h2>
-            <h6 class="mt-2 text-sm font-medium">Founder</h6>
+                <h2 class="mt-4 font-bold text-xl">{doctors.name}</h2>
+                <h6 class="mt-2 text-sm font-medium">{doctors.role}</h6>
 
-            <p class="text-xs text-gray-500 text-center mt-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab enim molestiae nulla.
-            </p>
+                <p class="text-xs text-gray-500 text-center mt-3">
+                  {doctors.specialization}
+                </p>
 
-            <ul class="flex flex-row mt-4 space-x-2">
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-facebook"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="flex hover:translate-y-2 hover:cursor-pointer flex-col items-center justify-center bg-white p-4 shadow rounded-lg">
-            <div class="inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden h-40 w-40">
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&w=128&h=128&q=60&facepad=2"
-                alt=""
-                class="h-full w-full" />
-            </div>
+                <ul class="flex flex-row mt-4 space-x-2">
+                  <li>
+                    <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
+                      <i class="fab fa-facebook"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
+                      <i class="fab fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
+                      <i class="fab fa-instagram"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )
 
-            <h2 class="mt-4 font-bold text-xl">Sebastian Bennett</h2>
-            <h6 class="mt-2 text-sm font-medium">Founder</h6>
-
-            <p class="text-xs text-gray-500 text-center mt-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab enim molestiae nulla.
-            </p>
-
-            <ul class="flex flex-row mt-4 space-x-2">
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-facebook"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="flex hover:translate-y-2 hover:cursor-pointer flex-col items-center justify-center bg-white p-4 shadow rounded-lg">
-            <div class="inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden h-40 w-40">
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&w=128&h=128&q=60&facepad=2"
-                alt=""
-                class="h-full w-full" />
-            </div>
-
-            <h2 class="mt-4 font-bold text-xl">Sebastian Bennett</h2>
-            <h6 class="mt-2 text-sm font-medium">Founder</h6>
-
-            <p class="text-xs text-gray-500 text-center mt-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab enim molestiae nulla.
-            </p>
-
-            <ul class="flex flex-row mt-4 space-x-2">
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-facebook"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="flex hover:translate-y-2 hover:cursor-pointer flex-col items-center justify-center bg-white p-4 shadow rounded-lg">
-            <div class="inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden h-40 w-40">
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&w=128&h=128&q=60&facepad=2"
-                alt=""
-                class="h-full w-full" />
-            </div>
-
-            <h2 class="mt-4 font-bold text-xl">Sebastian Bennett</h2>
-            <h6 class="mt-2 text-sm font-medium">Founder</h6>
-
-            <p class="text-xs text-gray-500 text-center mt-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab enim molestiae nulla.
-            </p>
-
-            <ul class="flex flex-row mt-4 space-x-2">
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-facebook"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a href="" class="flex items-center justify-center h-8 w-8 border rounded-full text-gray-800 border-gray-800">
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
+          })}
         </div>
       </div>
     </div >
