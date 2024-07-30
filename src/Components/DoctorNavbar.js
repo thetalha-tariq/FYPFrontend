@@ -1,15 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Style/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faBell } from "@fortawesome/free-solid-svg-icons";
 
 const DoctorNavbar = () => {
-  const handlelick = () => {
+  const navigate = useNavigate();
 
-    localStorage.clear();
-    alert("Successfully logged out :( ")
-  }
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      localStorage.clear();
+      alert("Successfully logged out :(");
+      navigate("/"); 
+    }
+  };
+
   return (
     <nav className="col-span-12 md:col-span-10 overflow-auto bg-gray-100 navbar">
       <div className="brand">
@@ -33,9 +39,11 @@ const DoctorNavbar = () => {
         <Link to="/notifications" className="notification-button">
           <FontAwesomeIcon icon={faBell} />
         </Link>
-        <div className="login-container" onClick={handlelick}>
-          <Link to="/" className="login-button"><FontAwesomeIcon icon={faRightFromBracket} /></Link>
-        </div>
+        <div className="login-container" >
+        <button className="login-button" onClick={handleLogout}>
+          <FontAwesomeIcon icon={faRightFromBracket} />
+        </button>
+      </div>
       </div>
     </nav>
   );
