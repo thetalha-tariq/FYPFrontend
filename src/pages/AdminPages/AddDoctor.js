@@ -25,6 +25,7 @@ const AddDoctor = () => {
         specialization: '',
         email: '',
         phone: '',
+        role:'',
         slotsPerDay: 4
       });
     } catch (error) {
@@ -34,10 +35,10 @@ const AddDoctor = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <div className="mt-10 max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Add Doctor</h2>
       <form onSubmit={handleSubmit}>
-        {['name', 'specialization', 'email', 'phone', 'slotsPerDay'].map((field) => (
+        {['name', 'specialization', 'email', 'phone','role', 'slotsPerDay'].map((field) => (
           <div key={field} className="mb-4">
             <label className="block text-gray-700">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
             <input

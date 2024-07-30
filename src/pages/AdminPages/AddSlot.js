@@ -28,7 +28,7 @@ const AddSlot = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <div className="mt-10 max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Add Slot</h2>
       <form onSubmit={handleSubmit}>
         {['startTime', 'endTime'].map((field) => (
