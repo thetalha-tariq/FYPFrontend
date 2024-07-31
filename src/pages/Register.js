@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import axios from "axios";
-import toast from "react-hot-toast";
-import { useDispatch } from 'react-redux'
-import { registerUser } from '../Store/Slice/UserSlice'
-import img from "../Images/img5.jpg"
-
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../Store/Slice/UserSlice';
+import img from "../Images/img5.jpg";
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
 
 function Register() {
   const navigate = useNavigate();
@@ -14,7 +12,10 @@ function Register() {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,19 +27,22 @@ function Register() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
     try {
       dispatch(registerUser(formData))
         .then(() => {
-          navigate('/login')
-
-        })
+          navigate('/login');
+        });
     } catch (error) {
-      toast.error("Something went wrong", { duration: 1000 });
+      alert("Something went wrong");
     }
   };
 
   return (
-<section className="flex flex-col md:flex-row h-screen items-center">
+    <section className="flex flex-col md:flex-row h-screen items-center">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
         <img src={img} alt="" className="w-full h-full object-cover" />
       </div>
@@ -85,7 +89,7 @@ function Register() {
             </div>
             <div className="relative z-0 w-full mb-5 group">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 id="floating_password"
                 value={formData.password}
@@ -100,6 +104,38 @@ function Register() {
               >
                 Password
               </label>
+              <span className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? (
+                  <EyeOffIcon className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="h-5 w-5 text-gray-500" />
+                )}
+              </span>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="confirmPassword"
+                id="floating_confirm_password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="block py-2 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-yellow-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="floating_confirm_password"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-8 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8"
+              >
+                Confirm Password
+              </label>
+              <span className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? (
+                  <EyeOffIcon className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <EyeIcon className="h-5 w-5 text-gray-500" />
+                )}
+              </span>
             </div>
 
             <div className="text-right mt-2">
@@ -116,8 +152,7 @@ function Register() {
           <p className="mt-8">Already have an account? <a href="/login" className="text-blue-500 hover:text-blue-700 font-semibold">Click Here to Login Page</a></p>
         </div>
       </div>
-    </section>
-
+    </section>
   );
 }
 
