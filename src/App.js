@@ -25,6 +25,8 @@ import AppoveAppointment from "./pages/AppoveAppointment";
 import AppointmentUser from "./pages/AppointmentUser";
 import ManageAppointment from "./pages/AdminPages/ManageAppointment";
 import ContactSupport from "./pages/ContactSupport";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 
 function AppContent() {
@@ -122,6 +124,19 @@ function AppContent() {
             ) : (
               <Login />
             )
+          }
+        />
+
+        <Route
+          path="/forgotPassword"
+          element={
+                <ForgetPassword/>
+          }
+        />
+        <Route
+          path="/resetPassword"
+          element={
+                <ResetPassword/>
           }
         />
 

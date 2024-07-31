@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticateUser } from '../Store/Slice/UserSlice';
 import img from "../Images/img 4.jpg";
-import Home from "./Home";
 
 function Login() {
   const dispatch = useDispatch();
@@ -21,21 +20,16 @@ function Login() {
     try {
       await dispatch(authenticateUser(formData));
     } catch (error) {
-      toast.error("Something went wrong", { duration: 1000 }); // Set duration to 1000 milliseconds (1 second)
-      // alert(error.response.data.message);
+      toast.error("Something went wrong", { duration: 1000 });
     }
   };
 
   useEffect(() => {
     if (user && localStorage.getItem('token') && localStorage.getItem('role') === 'customer' && localStorage.getItem('isAuthenticated')) {
-      // navigate('/home');
-      window.location.href='/home'
-      // Home
+      window.location.href = '/home';
     }
     if (user && localStorage.getItem('token') && localStorage.getItem('role') === 'admin' && localStorage.getItem('isAuthenticated')) {
-      // navigate('/home');
-      window.location.href='/manageuser'
-      // Home
+      window.location.href = '/manageuser';
     }
   }, [user, navigate]);
 
@@ -96,7 +90,9 @@ function Login() {
             </div>
 
             <div className="text-right mt-2">
-              <a href="#" className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot Password?</a>
+              <Link to="/forgotPassword" className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">
+                Forgot Password?
+              </Link>
             </div>
 
             <button type="submit" className="w-full block bg-yellow-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">
@@ -105,7 +101,6 @@ function Login() {
           </form>
 
           <hr className="my-6 border-gray-300 w-full" />
-
 
           <p className="mt-8">Need an account? <a href="/register" className="text-blue-500 hover:text-blue-700 font-semibold">Create an account</a></p>
         </div>
