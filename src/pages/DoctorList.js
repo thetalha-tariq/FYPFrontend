@@ -106,7 +106,7 @@ const DoctorList = ({ userId }) => {
     };
 
     return (
-        <div>
+        <div style={{ paddingTop:"10px"}}>
             <div className="flex justify-center mb-6 space-x-4">
                 <input
                     type="text"
@@ -156,6 +156,7 @@ const DoctorList = ({ userId }) => {
                     onRequestClose={closeBookModal}
                     handleBookAppointment={handleBookAppointment}
                     selectedSlot={selectedSlot} // Pass the selected slot
+                    doctorId={selectedDoctorId}
                 />
             )}
         </div>

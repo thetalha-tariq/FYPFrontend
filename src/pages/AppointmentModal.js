@@ -35,7 +35,7 @@ const AppointmentModal = ({ isOpen, onRequestClose, doctorId, slots, handleOpenB
 
     return (
         <Modal isOpen={isOpen} onRequestClose={onRequestClose} contentLabel="Book Appointment">
-            <h2 className="text-2xl font-bold mb-4">Available Slots</h2>
+            <h2 className="text-2xl font-bold mb-4 mt-10">Available Slots</h2>
             {detailedSlots.length === 0 ? (
                 <div className="text-center mt-4">No slots available for this doctor.</div>
             ) : (
