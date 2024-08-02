@@ -19,12 +19,14 @@ const BookAppointmentModal = ({ isOpen, onRequestClose, handleBookAppointment, s
     });
     const [otherService, setOtherService] = useState('');
     const [doctorRole, setDoctorRole] = useState('');
+    const [doctorEmail,setDoctorEmail] = useState('');
 
     useEffect(() => {
         const fetchDoctorRole = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/doctor/${selectedSlot.doctorId}`);
                 setDoctorRole(response.data.data.role);
+                setDoctorEmail(response.data.data.email);
             } catch (error) {
                 console.error('Error fetching doctor role:', error);
             }
@@ -52,7 +54,8 @@ const BookAppointmentModal = ({ isOpen, onRequestClose, handleBookAppointment, s
                 phone,
                 petName,
                 groomingServices: completeGroomingServices,
-                doctorId: selectedSlot.doctorId
+                doctorId: selectedSlot.doctorId,
+                doctorEmail
             });
         } else {
             handleBookAppointment({
@@ -61,7 +64,8 @@ const BookAppointmentModal = ({ isOpen, onRequestClose, handleBookAppointment, s
                 phone,
                 petName,
                 disease,
-                doctorId: selectedSlot.doctorId
+                doctorId: selectedSlot.doctorId,
+                doctorEmail
             });
         }
     };
