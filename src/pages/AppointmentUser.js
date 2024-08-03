@@ -62,9 +62,9 @@ const AppointmentUser = ({ userId }) => {
               <p>
                 <strong>Disease:</strong> {appointment.disease}
               </p>
-              {appointment.groomingService && (
+              {appointment.groomingServices && (
                 <p>
-                  <strong>Grooming Service:</strong> {appointment.groomingService}
+                  <strong>Grooming Service:</strong> {appointment.groomingServices}
                 </p>
               )}
             </div>

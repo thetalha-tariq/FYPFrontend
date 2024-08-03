@@ -36,9 +36,9 @@ const DoctorNavbar = () => {
         </li>
       </ul>
       <div className="icon-container">
-        <Link to="/notifications" className="notification-button">
+        {/* <Link to="/notifications" className="notification-button">
           <FontAwesomeIcon icon={faBell} />
-        </Link>
+        </Link> */}
         <div className="login-container" >
         <button className="login-button" onClick={handleLogout}>
           <FontAwesomeIcon icon={faRightFromBracket} />
