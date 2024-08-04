@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUtensils, faPaw, faShieldDog, faCat, faSuitcaseMedical } from "@fortawesome/free-solid-svg-icons";
+import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import HomePagePic1 from "../Images/HomePagePic1.webp";
+import Chatbot from "./ChatBot";
 
 import { useState } from "react";
 import axios, { Axios } from "axios";
@@ -9,6 +11,8 @@ const Home = () => {
   const [Image, setImage] = useState("https://45397-theme003.myshopify.com/cdn/shop/files/slide_3_1810x700_crop_top.png?v=1620303005");
   const Images = ["https://45397-theme003.myshopify.com/cdn/shop/files/slide_1_1810x700_crop_center.png?v=1620302496", "https://45397-theme003.myshopify.com/cdn/shop/files/slide_3_1810x700_crop_top.png?v=1620303005", "https://45397-theme003.myshopify.com/cdn/shop/files/slide_2_1810x700_crop_center.png?v=1620302571"]
   const [doctors, setDoctors] = useState([]);
+  const [isChatOpen, setIsChatOpen] = useState(false); 
+
   const onButtonClick = () => {
 
     var rand = Math.floor(Math.random() * 3);
@@ -33,6 +37,10 @@ const Home = () => {
 
     fetchDoctors();
   }, []);
+
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
 
   return (
     <div className="gap-2 flex flex-col">
@@ -100,7 +108,7 @@ const Home = () => {
                 </div>
 
                 <h2 class="mt-4 font-bold text-xl">{doctors.name}</h2>
-                <h6 class="mt-2 text-sm font-medium">{doctors.role}</h6>
+                <h6 class="mt-2 text-sm font-medium">{doctors.address}</h6>
 
                 <p class="text-xs text-gray-500 text-center mt-3">
                   {doctors.specialization}
@@ -129,6 +137,20 @@ const Home = () => {
           })}
         </div>
       </div>
+      <div className="fixed bottom-6 right-4 z-50">
+        <button
+          className="bg-red-900 text-white font-bold py-4 px-4 rounded-full text-xl"
+          onClick={toggleChat}
+          style={{ fontSize: '0.8rem'}} // You can adjust the font size if needed
+        >
+          <FontAwesomeIcon icon={faCommentDots} size="2x" /> {/* Increased icon size */}
+        </button>
+      </div>
+      {isChatOpen && (
+        <div className="fixed bottom-16 right-4 z-50 w-80 bg-white shadow-lg rounded-lg">
+          <Chatbot />
+        </div>
+      )}
     </div >
   );
 };
