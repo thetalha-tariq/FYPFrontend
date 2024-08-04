@@ -11,7 +11,7 @@ const Navbar = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
       localStorage.clear();
-      navigate("/"); 
+      navigate("/");
     }
   };
 
@@ -28,9 +28,6 @@ const Navbar = () => {
           <Link to="/about">About</Link>
         </li>
         <li>
-          <Link to="/services">Services</Link>
-        </li>
-        <li>
           <Link to="/appointment">Make Appointment</Link>
         </li>
         <li>
@@ -38,6 +35,9 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/contact">Contact Us</Link>
+        </li>
+        <li>
+          <Link to="/my-orders">My Orders</Link>
         </li>
       </ul>
       <div className="login-container">

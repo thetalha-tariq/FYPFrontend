@@ -4,22 +4,22 @@ import axios from "../../axiosInstance";
 export const authenticateUser = createAsyncThunk(
     "authenticateUser",
     async (payload, { rejectWithValue }) => {
-      try {
-        const response = await axios.post("/api/user/login", payload);
-        const result = response.data;
-        localStorage.setItem("token", result.data.token);
-        localStorage.setItem("role", result.data.user.userRole);
-        localStorage.setItem("isAuthenticated", true);
-        localStorage.setItem("userId",result.data.user._id);
-        return result.data.user;
-      } catch (error) {
-        console.log(error.response.data.message)
-        alert(error.response.data.message);
-        localStorage.setItem("error",error.response.data.message)
-        // return rejectWithValue(error.response.data);
-      }
+        try {
+            const response = await axios.post("/api/user/login", payload);
+            const result = response.data;
+            localStorage.setItem("token", result.data.token);
+            localStorage.setItem("role", result.data.user.userRole);
+            localStorage.setItem("isAuthenticated", true);
+            localStorage.setItem("userId", result.data.user._id);
+            return result.data.user;
+        } catch (error) {
+            console.log(error.response.data.message)
+            alert(error.response.data.message);
+            localStorage.setItem("error", error.response.data.message)
+            // return rejectWithValue(error.response.data);
+        }
     }
-  );
+);
 export const registerUser = createAsyncThunk("registerUser",
     async (payload, { rejectWithValue }) => {
         try {
@@ -27,12 +27,12 @@ export const registerUser = createAsyncThunk("registerUser",
             const result = response.data
             console.log("---------------------->>>>>>>>>>>>", result)
             console.log(result.data.token)
-            
+
             return result.data.user
         }
         catch (error) {
             console.log(error.response.data.message)
-            localStorage.setItem("error",error.response.data.message)
+            localStorage.setItem("error", error.response.data.message)
             alert(error.response.data.message);
             // response.data.message
             // return rejectWithValue(error)

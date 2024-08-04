@@ -12,7 +12,7 @@ const AdminNavBar = () => {
     if (confirmLogout) {
       localStorage.clear();
       alert("Successfully logged out :(");
-      navigate("/"); 
+      navigate("/");
     }
   };
 
@@ -39,6 +39,9 @@ const AdminNavBar = () => {
         </li>
         <li>
           <Link to="/manageAppointmentAdmin">Appointment</Link>
+        </li>
+        <li>
+          <Link to="/order-list">Orders</Link>
         </li>
         <li>
           <Link to="/contactformAdmin">Contact Form Data</Link>
