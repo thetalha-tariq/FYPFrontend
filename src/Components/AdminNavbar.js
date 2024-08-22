@@ -28,14 +28,17 @@ const AdminNavBar = () => {
         <li>
           <Link to="/managedoctor">Manage Doctors</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/addDoctorAdmin">Add Doctor</Link>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <Link to="/addSlotAdmin">Manage Slots</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/addProductAdmin">Manage Products</Link>
+        </li>
+        <li>
+          <Link to="/approveOnlineConsulting">Approve Online Appointment</Link>
         </li>
         <li>
           <Link to="/manageAppointmentAdmin">Appointment</Link>

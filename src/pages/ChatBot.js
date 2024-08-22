@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const Chatbot = () => {
+const Chatbot = ({ onClose }) => {
     const [message, setMessage] = useState('');
     const [chatHistory, setChatHistory] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
 
     useEffect(() => {
         const initialMessages = [
-            { text: 'How can I make an appointment?', sender: 'suggestion' },
+            { text: 'What is the purpose of this Application?', sender: 'suggestion' },
             { text: 'Can I buy pet food?', sender: 'suggestion' },
         ];
         setChatHistory(initialMessages);
@@ -53,13 +55,16 @@ const Chatbot = () => {
     };
 
     return (
-        <div className="fixed bottom-16 right-4 z-50 w-96 h-[450px] bg-white shadow-lg rounded-lg flex flex-col p-4">
+        <div className="relative w-96 h-[450px] bg-white shadow-lg rounded-md flex flex-col p-4">
+            <button onClick={onClose} className="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+                <FontAwesomeIcon icon={faTimes} />
+            </button>
             <h1 className="text-2xl font-bold mb-2">PetMedi Chatbot</h1>
-            <div className="mb-4 h-32 overflow-y-auto bg-gray-50 p-2 rounded-lg flex-grow">
+            <div className="mb-4 h-32 overflow-y-auto bg-gray-50 p-2 rounded-md flex-grow">
                 {chatHistory.map((msg, index) => (
                     <div
                         key={index}
-                        className={`mb-2 p-2 rounded-lg ${
+                        className={`mb-2 p-2 rounded-full ${
                             msg.sender === 'user'
                                 ? 'bg-blue-500 text-white self-end'
                                 : msg.sender === 'suggestion'
@@ -72,8 +77,12 @@ const Chatbot = () => {
                     </div>
                 ))}
                 {isTyping && (
-                    <div className="mb-2 p-2 rounded-lg bg-gray-200 text-gray-900 self-start">
-                        ...
+                    <div className="mb-2 p-2 rounded-full bg-gray-200 text-gray-900 self-start">
+                        <div className="flex space-x-1">
+                            <div className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-bounce delay-0"></div>
+                            <div className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-bounce delay-150"></div>
+                            <div className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-bounce delay-300"></div>
+                        </div>
                     </div>
                 )}
             </div>

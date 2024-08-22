@@ -1,21 +1,27 @@
 // src/components/OrdersList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { updateOrderStatus } from '../../Store/Slice/OrderSlice';
 
 const OrdersList = () => {
     const [orders, setOrders] = useState([]);
-    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch orders from the backend
         const fetchOrders = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/order/');
-                setOrders(response.data);
-            } catch (error) {
-                console.error('Error fetching orders:', error);
+                console.log(response.data); 
+                if (Array.isArray(response.data)) {
+                    setOrders(response.data);
+                } else {
+                    throw new Error('Response is not an array');
+                }
+            } catch (err) {
+                console.error('Error fetching orders:', err);
+                setError('Failed to fetch orders');
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -24,14 +30,15 @@ const OrdersList = () => {
 
     const handleProcessOrder = async (id) => {
         try {
-            await dispatch(updateOrderStatus({ id }));
-            // Fetch the updated orders list
-            const response = await axios.put('http://localhost:5000/api/order/', id);
-            setOrders(response.data);
+            const response = await axios.put(`http://localhost:5000/api/order/${id}`, { id });
+            setOrders((prevOrders) => prevOrders.map(order => order._id === id ? { ...order, isProcessed: true } : order));
         } catch (error) {
             console.error('Error processing order:', error);
         }
     };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
 
     return (
         <div className="container mx-auto p-4">
@@ -46,8 +53,7 @@ const OrdersList = () => {
                             <p className="text-gray-700">User ID: {order.userId}</p>
                             <p className="text-gray-700">Total Price: ${order.totalPrice.toFixed(2)}</p>
                             <p className="text-gray-700">Shipping Address: {order.address}</p>
-                            <p className="text-gray-700">Shipping City:{order.city}</p>
-
+                            <p className="text-gray-700">Shipping City: {order.city}</p>
                             <p className="text-gray-700">Shipping Country: {order.country}</p>
                             <p className="text-gray-700">Payment Method: {order.paymentMethod}</p>
                             <p className="text-gray-700">Is Paid: {order.isPaid ? 'Yes' : 'No'}</p>

@@ -11,7 +11,7 @@ const AppointmentModal = ({ isOpen, onRequestClose, doctorId, slots, handleOpenB
                 const slotDetailsPromises = slots.map(async (slot) => {
                     const slotResponse = await axios.get(`http://localhost:5000/api/slot/${slot.slotId}`);
                     const slotDetails = slotResponse.data.data;
-
+                    
                     return {
                         ...slot,
                         startTime: slotDetails.startTime,

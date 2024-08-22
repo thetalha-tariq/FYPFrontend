@@ -3,28 +3,32 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import DoctorCard from './DoctorCard';
 import AppointmentModal from './AppointmentModal';
-import BookAppointmentModal from './BookAppointmentModal'; // Import the new modal
+import BookAppointmentModal from './BookAppointmentModal';
 
 const DoctorList = ({ userId }) => {
     const [doctors, setDoctors] = useState([]);
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [selectedDoctorId, setSelectedDoctorId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isBookModalOpen, setIsBookModalOpen] = useState(false); // State for new modal
+    const [isBookModalOpen, setIsBookModalOpen] = useState(false);
     const [slots, setSlots] = useState([]);
-    const [selectedSlot, setSelectedSlot] = useState(null); // State for selected slot
+    const [selectedSlot, setSelectedSlot] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedRole, setSelectedRole] = useState('all');
+    const [isLoading, setIsLoading] = useState(true); 
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
+                setIsLoading(true); 
                 const response = await axios.get('http://localhost:5000/api/doctor');
                 setDoctors(response.data.data);
                 setFilteredDoctors(response.data.data);
             } catch (error) {
                 console.error("Error fetching doctors:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -54,36 +58,35 @@ const DoctorList = ({ userId }) => {
         setFilteredDoctors(filtered);
     };
 
-    const handleMakeAppointment = async (doctorId) => {
-        setSelectedDoctorId(doctorId);
-        setIsModalOpen(true);
-        setSlots([]); // Reset slots before fetching new ones
+    // const handleMakeAppointment = async (doctorId) => {
+    //     setSelectedDoctorId(doctorId);
+    //     setIsModalOpen(true);
+    //     setSlots([]);
 
-        try {
-            const response = await axios.get(`http://localhost:5000/api/doctorSlot/${doctorId}`);
-            setSlots(response.data.data);
-        } catch (error) {
-            console.error("Error fetching doctor slots:", error);
-        }
-    };
+    //     try {
+    //         const response = await axios.get(`http://localhost:5000/api/doctorSlot/${doctorId}`);
+    //         setSlots(response.data.data);
+    //     } catch (error) {
+    //         console.error("Error fetching doctor slots:", error);
+    //     }
+    // };
 
     const handleOpenBookModal = (slot) => {
-        setSelectedSlot({ ...slot, doctorId: selectedDoctorId }); // Include doctorId in selected slot
+        setSelectedSlot({ ...slot, doctorId: selectedDoctorId });
         setIsBookModalOpen(true);
     };
 
     const handleBookAppointment = async (userData) => {
         try {
             const response = await axios.post('http://localhost:5000/api/appointment/createAppointment', {
-                userId, // Use userId from props
+                userId,
                 doctorSlotId: selectedSlot._id,
-                doctorId: selectedSlot.doctorId, // Add doctorId here
-                ...userData // Spread user data
+                doctorId: selectedSlot.doctorId,
+                ...userData
             });
             console.log(response.data);
-            // Update slot booking status
             setSlots(slots.map(slot => slot._id === selectedSlot._id ? { ...slot, booked: true } : slot));
-            setIsBookModalOpen(false); // Close the booking modal
+            setIsBookModalOpen(false);
         } catch (error) {
             console.error("Error booking appointment:", error);
         }
@@ -97,8 +100,8 @@ const DoctorList = ({ userId }) => {
         setIsBookModalOpen(false);
     };
 
-    const handleOnlineConsulting = () => {
-        navigate('/onlineAppointment');
+    const handleOnlineConsulting = (doctorId) => {
+        navigate('/onlineAppointment', { state: { doctorId, userId } });
     };
 
     const handleYourAppointments = () => {
@@ -106,7 +109,7 @@ const DoctorList = ({ userId }) => {
     };
 
     return (
-        <div style={{ paddingTop:"10px"}}>
+        <div style={{ paddingTop: "20px" }}>
             <div className="flex justify-center mb-6 space-x-4">
                 <input
                     type="text"
@@ -131,23 +134,34 @@ const DoctorList = ({ userId }) => {
                     Your Appointments
                 </button>
             </div>
-            <div className="grid grid-cols-1 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredDoctors.map((doctor) => (
-                    <DoctorCard
-                        key={doctor._id}
-                        doctor={doctor}
-                        onMakeAppointment={handleMakeAppointment}
-                        onOnlineConsulting={handleOnlineConsulting} // Pass the new handler
-                    />
-                ))}
-            </div>
+
+            {/* Show loader while loading */}
+            {isLoading ? (
+                <div className="flex justify-center">
+                    <div className="spinner-border text-yellow-500" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {filteredDoctors.map((doctor) => (
+                        <DoctorCard
+                            //key={doctor._id}
+                            doctor={doctor}
+                            //onMakeAppointment={handleMakeAppointment}
+                            //onOnlineConsulting={() => handleOnlineConsulting(doctor._id)}
+                        />
+                    ))}
+                </div>
+            )}
+
             {isModalOpen && (
                 <AppointmentModal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
                     doctorId={selectedDoctorId}
                     slots={slots}
-                    handleOpenBookModal={handleOpenBookModal} // Pass the new handler
+                    handleOpenBookModal={handleOpenBookModal}
                 />
             )}
             {isBookModalOpen && (
@@ -155,7 +169,7 @@ const DoctorList = ({ userId }) => {
                     isOpen={isBookModalOpen}
                     onRequestClose={closeBookModal}
                     handleBookAppointment={handleBookAppointment}
-                    selectedSlot={selectedSlot} // Pass the selected slot
+                    selectedSlot={selectedSlot}
                     doctorId={selectedDoctorId}
                 />
             )}

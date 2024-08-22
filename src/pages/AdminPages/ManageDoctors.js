@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ManageDoctors = () => {
@@ -70,13 +71,23 @@ const ManageDoctors = () => {
     return (
         <div className="container mx-auto mt-8">
             <h2 className="text-2xl font-bold mb-6">Manage Doctors</h2>
-            <input
-                type="text"
-                placeholder="Search by any field"
-                value={searchQuery}
-                onChange={handleSearch}
-                className="w-full p-3 mb-6 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="flex justify-between items-center mb-6">
+                <input
+                    type="text"
+                    placeholder="Search by any field"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    className="w-1/2 p-3 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <div className="flex space-x-4">
+                    <Link to="/addDoctorAdmin" className="px-4 py-2 text-white rounded-full" style={{ backgroundColor: '#fac74f' }}>
+                        Add Doctor
+                    </Link>
+                    <Link to="/addSlotAdmin" className="px-4 py-2 text-white rounded-full" style={{ backgroundColor: '#fac74f' }}>
+                        Add Slot
+                    </Link>
+                </div>
+            </div>
             <table className="min-w-full bg-white border">
                 <thead>
                     <tr>
@@ -100,6 +111,7 @@ const ManageDoctors = () => {
                                 <button
                                     onClick={() => handleEdit(doctor)}
                                     className="bg-blue-500 text-white px-4 py-1 rounded mr-2"
+                                    style={{ backgroundColor: '#fac74f' }}
                                 >
                                     Edit
                                 </button>

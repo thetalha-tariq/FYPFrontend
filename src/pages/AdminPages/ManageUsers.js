@@ -7,6 +7,8 @@ const ManageUsers = () => {
     const [showModal, setShowModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 15;
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -47,6 +49,7 @@ const ManageUsers = () => {
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+        setCurrentPage(1); // Reset to first page on search
     };
 
     const handleSort = (key) => {
@@ -78,6 +81,15 @@ const ManageUsers = () => {
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Pagination logic
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div className="container mx-auto mt-8">
             <h2 className="text-2xl font-bold mb-6">Manage Users</h2>
@@ -100,15 +112,19 @@ const ManageUsers = () => {
                         <th className="py-2 px-4 border cursor-pointer" onClick={() => handleSort('userRole')}>
                             Role {sortConfig.key === 'userRole' ? (sortConfig.direction === 'ascending' ? '↑' : '↓') : ''}
                         </th>
+                        <th className="py-2 px-4 border cursor-pointer" onClick={() => handleSort('createdAt')}>
+                            Create Date {sortConfig.key === 'createdAt' ? (sortConfig.direction === 'ascending' ? '↑' : '↓') : ''}
+                        </th>
                         <th className="py-2 px-4 border">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredUsers.map(user => (
+                    {currentUsers.map(user => (
                         <tr key={user._id}>
                             <td className="py-2 px-4 border">{user.name}</td>
                             <td className="py-2 px-4 border">{user.email}</td>
                             <td className="py-2 px-4 border">{user.userRole}</td>
+                            <td className="py-2 px-4 border">{new Date(user.createdAt).toLocaleDateString()}</td>
                             <td className="py-2 px-4 border">
                                 <button
                                     onClick={() => handleEdit(user)}
@@ -121,6 +137,21 @@ const ManageUsers = () => {
                     ))}
                 </tbody>
             </table>
+
+            {/* Pagination */}
+            <div className="flex justify-center mt-6">
+                <nav className="flex items-center">
+                    {[...Array(totalPages)].map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => paginate(index + 1)}
+                            className={`mx-1 px-4 py-2 border rounded-full ${currentPage === index + 1 ? 'bg-[#fac74f] text-white' : 'bg-white text-black border-gray-300'}`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </nav>
+            </div>
 
             {showModal && (
                 <Modal user={editUser} onClose={() => setShowModal(false)} onSave={handleUpdate} />

@@ -10,19 +10,15 @@ function Products() {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [categories, setCategories] = useState([]);
     const [cart, setCart] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(""); // <-- Added search state
 
     const dispatch = useDispatch();
     const { products } = useSelector((state) => state.product);
 
     useEffect(() => {
         dispatch(getProducts());
-        // const storedCart = localStorage.getItem("Cart");
         if (localStorage.getItem("Cart")) {
             setCart(JSON.parse(localStorage.getItem("Cart")));
-        }
-        else {
-
-
         }
     }, [dispatch]);
 
@@ -39,6 +35,15 @@ function Products() {
         }
         setSelectedCategory(category);
     };
+
+    // Handle search
+    useEffect(() => {
+        const filtered = products.filter(product =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            product.description.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+    }, [products, searchQuery, selectedCategory]);
 
     useEffect(() => {
         setFilteredProducts(products);
@@ -64,7 +69,15 @@ function Products() {
     return (
         <div className="bg-yellow-50 min-h-screen">
             <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                <div className="flex justify-center mb-4 space-x-2">
+                <div className="mb-4 flex justify-center mb-4 space-x-2">
+                    <input
+                        type="text"
+                        placeholder="Search for products..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full max-w-md p-3 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                    />
                     <button onClick={() => handleCategoryChange("All")} className={`px-4 py-2 rounded-full ${selectedCategory === "All" ? "bg-yellow-500 text-white" : "bg-yellow-200 text-yellow-800"}`}>All</button>
                     {categories.map(category => (
                         <button key={category} onClick={() => handleCategoryChange(category)} className={`px-4 py-2 rounded-full ${selectedCategory === category ? "bg-yellow-500 text-white" : "bg-yellow-200 text-yellow-800"}`}>
@@ -72,6 +85,7 @@ function Products() {
                         </button>
                     ))}
                 </div>
+            
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
                     {filteredProducts.map((data) => (

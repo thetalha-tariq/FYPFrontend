@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState,useEffect} from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -28,6 +28,25 @@ import ContactSupport from "./pages/ContactSupport";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 
+import Cart from "./pages/Cart";
+import OrderDetails from "./pages/OrderDetails";
+import OrdersList from "./pages/AdminPages/OrdersList";
+import MyOrder from "./pages/MyOrder";
+import ProductDetail from "./pages/ProductDetail";
+
+import Chatbot from "./pages/ChatBot";
+import OnlineConsulting from "./pages/OnlineConsulting";
+import ApproveOnlineConsulting from "./pages/AdminPages/ApproveOnlineConsulting";
+import AllQuestions from "./pages/QuestionAnswer/AllQuestions";
+import PostQuestion from "./pages/QuestionAnswer/PostQuestion";
+import ViewQuestion from "./pages/QuestionAnswer/ViewQuestion";
+import BookAppointmentModal from "./pages/BookAppointmentModal";
+import AppointmentModal from "./pages/AppointmentModal";
+import MakeAppointment from "./pages/MakeAppointment";
+import OnlineAppointmentDetail from "./pages/OnlineAppointmentDetail";
+import MyProfile from "./pages/MyProfile";
+
+
 
 function AppContent() {
   const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -50,7 +69,7 @@ function AppContent() {
         <Route path="/doctorLogin" element={<DoctorLogin />} />
 
         {/* ******USER ROUTES******* */}
-        <Route
+        {/* <Route
           path="/product"
           element={
             isAuthenticated && role === "customer" ? (
@@ -61,7 +80,7 @@ function AppContent() {
               <Login />
             )
           }
-        />
+        /> */}
 
         <Route
           path="/home"
@@ -127,6 +146,183 @@ function AppContent() {
           }
         />
 
+        <Route
+          path="/product"
+          element={
+            isAuthenticated && role === "customer" ? (
+              <CustomerLayout>
+                <Product />
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+
+        />
+
+
+        <Route
+          path="product/:id"
+          element={
+            isAuthenticated && role === "customer" ? (
+              <CustomerLayout>
+                <ProductDetail />
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route path="/cart"
+          element={
+            isAuthenticated && role === "customer" ? (
+              <CustomerLayout>
+                <Cart />
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          } />
+        <Route
+          path="/order-details"
+          element={
+            isAuthenticated && role === "customer" ? (
+              <CustomerLayout>
+                <OrderDetails />
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/my-orders"
+          element={
+            isAuthenticated && role === "customer" ? (
+              <CustomerLayout>
+                <MyOrder />
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/chatBot"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <Chatbot />
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/onlineAppointment"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <OnlineConsulting userId={userID}/>
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/makeAppointment/:doctorId"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <MakeAppointment userId={userID}/>
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/OnlineAppointmentDetail/:consultingID"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <OnlineAppointmentDetail />
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/communityForum"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <AllQuestions userId={userID}/>
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/questions/category/:category"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <AllQuestions userId={userID}/>
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/myProfile"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <MyProfile userId={userID}/>
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/postQuestion"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <PostQuestion userId={userID}/>
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/question/:id"
+          element={
+            isAuthenticated && role == "customer" ? (
+              <CustomerLayout>
+                <ViewQuestion userId={userID}/>
+              </CustomerLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
         <Route
           path="/forgotPassword"
           element={
@@ -288,6 +484,32 @@ function AppContent() {
             )
           }
         />
+        <Route
+          path="/order-list"
+          element={
+            isAuthenticated && role === "admin" ? (
+              <AdminLayout>
+                <OrdersList />
+              </AdminLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+      <Route
+          path="/approveOnlineConsulting"
+          element={
+            isAuthenticated && role === "admin" ? (
+              <AdminLayout>
+                <ApproveOnlineConsulting />
+              </AdminLayout>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
       </Routes>
     </div>
   );

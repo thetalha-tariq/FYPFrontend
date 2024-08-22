@@ -24,7 +24,7 @@ const EditDoctorDetails = ({ doctorId, onClose, onDoctorDetailsUpdated }) => {
     const handleSave = async () => {
         try {
             await axios.put(`http://localhost:5000/api/doctor/${doctorId}`, doctorDetails);
-            onDoctorDetailsUpdated(); // Notify parent component
+            onDoctorDetailsUpdated(); 
             onClose();
         } catch (error) {
             console.error("Error updating doctor details:", error);
@@ -32,8 +32,8 @@ const EditDoctorDetails = ({ doctorId, onClose, onDoctorDetailsUpdated }) => {
     };
 
     return (
-        <div className="mt-20 fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-8 rounded-lg">
+        <div className="m-30 fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-4 rounded-lg w-full max-w-xl">
                 <h2 className="text-2xl mb-4">Edit Doctor Details</h2>
                 <label className="block mb-2">
                     Name:
@@ -81,6 +81,16 @@ const EditDoctorDetails = ({ doctorId, onClose, onDoctorDetailsUpdated }) => {
                         type="text"
                         name="address"
                         value={doctorDetails.address || ''}
+                        onChange={handleChange}
+                        className="mt-1 p-2 border rounded w-full"
+                    />
+                </label>
+                <label className="block mb-2">
+                Payment:
+                    <input
+                        type="text"
+                        name="payment"
+                        value={doctorDetails.payment || ''}
                         onChange={handleChange}
                         className="mt-1 p-2 border rounded w-full"
                     />

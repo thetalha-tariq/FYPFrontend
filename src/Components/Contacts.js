@@ -35,31 +35,31 @@ export default function Contacts({ userId }) {
         <div className="container">
           <div className="flex flex-wrap lg:justify-between -mx-4">
           <div className="w-full lg:w-1/2 xl:w-6/12 px-4">
-            <div className="max-w-[570px] mb-12 lg:mb-0">
-              <span className="block mb-4 text-2xl text-yellow-500 font-semibold">
-                Contact Us
-              </span>
-              <p className="text-base text-body-color leading-relaxed mb-9">
-                Welcome to <span className='font-semibold'>Pet MediConnect</span>!
-                <br/><br/>
-                We are here to assist you with any questions, concerns, or feedback you may have. Our dedicated admin team is committed to ensuring your experience with PetMedi Connect is smooth and satisfactory. Please use the form below to get in touch with us, and we will respond as soon as possible.
-                <br/><br/>
-                <span className='font-bold'>
-                Contact Information:</span>
-                <br/><br/>
-                Email: support@petmedi.com
-                <br/>
-                Phone: (123) 456-7890
-                <br/>
-                Office Hours: Monday - Friday, 9 AM - 6 PM
-                <br/><br/>
-                Thank you for reaching out to us. We appreciate your feedback and look forward to assisting you.
-                <br/><br/>
-                Warm regards,
-                <br/>
-                The PetMedi Connect Team
-              </p>
-            </div>
+          <div className="max-w-[570px] mb-12 lg:mb-0">
+  <span className="block mb-4 text-2xl text-yellow-500 font-semibold tracking-wide">
+    Contact Us
+  </span>
+  <p className="text-base text-gray-700 leading-relaxed mb-9 font-light">
+    Thank you for choosing <span className="font-semibold text-black">Pet MediConnect</span> as your trusted partner in pet care.
+    We value your inquiries and are here to provide you with the support you need. Whether you have questions, require assistance, or wish to provide feedback, our dedicated team is ready to assist you.
+    <br/><br/>
+    Please use the contact form to reach out to us, and one of our representatives will respond to you promptly.
+    <br/><br/>
+    <span className="font-bold text-gray-900">Contact Information:</span>
+    <br/><br/>
+    <span className="font-semibold text-black">Email:</span> support@petmedi.com
+    <br/>
+    <span className="font-semibold text-black">Phone:</span> (123) 456-7890
+    <br/>
+    <span className="font-semibold text-black">Office Hours:</span> Monday - Friday, 9 AM - 6 PM
+    <br/><br/>
+    We look forward to assisting you and ensuring that your experience with Pet MediConnect is exceptional.
+    <br/><br/>
+    <span className="font-semibold text-black">Best regards,</span>
+    <br/>
+    The Pet MediConnect Team
+  </p>
+</div>
           </div>
             <div className="w-full lg:w-1/2 xl:w-5/12 px-4">
               <div className="bg-white relative rounded-lg p-8 sm:p-12 shadow-lg">
